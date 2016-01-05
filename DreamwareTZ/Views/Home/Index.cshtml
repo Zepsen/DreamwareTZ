@@ -4,37 +4,36 @@
 @using GridMvc.Html
 
 @*@model List<DreamwareTZ.Classes.User>*@
-@model List<User>
+@model List<object>
 
 @{
-//var type = Model.First();
 
-//var MyModel = new List<User>();
 
-//if (type.GetType() == typeof(User))
-//{
-//    foreach (var item in Model)
-//    {
-//        var i = (User) item;
-//        MyModel.Add(new User()
-//        {
-//            Login = i.Login,
-//            Password = i.Password 
-//        });
-//    }
+    var type = Model.First();
 
-//}
+    var MyModel = new List<User>();
 
-//ViewBag.Title = "Home Page";
+    if (type.GetType() == typeof(User))
+    {
+        MyModel.AddRange(Model.Select(item => item as User));
+    }
+
+    ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
     <h1>ASP.NET</h1>
-    <div>
-        @Html.Grid(@Model).Columns(columns =>
-        {
-            columns.Add(user => user.Login).Titled("Custom column title").Sortable(true).SetWidth(110);
-            columns.Add(user => user.Password);
-        }).WithPaging(3)
-    </div>
+    
+</div>
+
+<hr />
+<div>
+    @Html.Grid(@MyModel).AutoGenerateColumns().Columns(column =>
+   {
+       column.Add().Encoded(false).Sanitized(false)
+       .RenderValueAs(c => @Html.ActionLink("Update", null, null, new { @class = "btn btn-warning" }));
+
+       column.Add().Encoded(false).Sanitized(false)
+       .RenderValueAs(c => @Html.ActionLink("Delete", null, null, new { @class = "btn btn-danger" }));
+   }).WithPaging(3).Selectable(false)
 </div>

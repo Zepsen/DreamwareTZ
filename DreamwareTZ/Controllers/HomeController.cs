@@ -16,7 +16,10 @@ namespace DreamwareTZ.Controllers
         {
             
             var users = db.Users.ToList();
-            return View(users);
+
+            List<object> a = users.Cast<object>().ToList();
+
+            return View(a);
         }
     }
 
