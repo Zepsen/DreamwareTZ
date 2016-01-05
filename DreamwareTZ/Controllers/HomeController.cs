@@ -14,12 +14,31 @@ namespace DreamwareTZ.Controllers
         
         public ActionResult Index()
         {
-            
             var users = db.Users.ToList();
+            return View(users.Cast<object>().ToList());
+        }
 
-            List<object> a = users.Cast<object>().ToList();
+        public ActionResult Index2()
+        {
+            var admins = db.Admins.ToList();
+            return View("Index",admins.Cast<object>().ToList());
+        }
 
-            return View(a);
+        /*Create Update Delete*/
+        
+        public ActionResult Create(object obj, Type type)
+        {
+            return View("Index");
+        }
+        
+        public ActionResult Update(object obj, Type type)
+        {
+            return View("Index");
+        }
+        
+        public ActionResult Delete(object obj, Type type)
+        {
+            return View("Index");
         }
     }
 

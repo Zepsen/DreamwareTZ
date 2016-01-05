@@ -2,38 +2,68 @@
 @using System.Data.Entity.ModelConfiguration.Conventions
 @using DreamwareTZ.Models
 @using GridMvc.Html
+@using Microsoft.Ajax.Utilities
 
 @*@model List<DreamwareTZ.Classes.User>*@
 @model List<object>
 
 @{
+    ViewBag.Title = "Home Page";
+
+    var type = Model.First().GetType();
+
+    /*IF1*/
+    var myModel = new List<User>();
+    var myModel2 = new List<Admin>();
 
 
-    var type = Model.First();
-
-    var MyModel = new List<User>();
-
-    if (type.GetType() == typeof(User))
+    /*IF2*/
+    if (type == typeof(User))
     {
-        MyModel.AddRange(Model.Select(item => item as User));
+        myModel.AddRange(Model.Select(item => item as User));
     }
 
-    ViewBag.Title = "Home Page";
+    if (type == typeof(Admin))
+    {
+        myModel2.AddRange(Model.Select(item => item as Admin));
+    }
+
+
 }
 
 <div class="jumbotron">
     <h1>ASP.NET</h1>
-    
 </div>
 
 <hr />
 <div>
-    @Html.Grid(@MyModel).AutoGenerateColumns().Columns(column =>
-   {
-       column.Add().Encoded(false).Sanitized(false)
-       .RenderValueAs(c => @Html.ActionLink("Update", null, null, new { @class = "btn btn-warning" }));
+    @* IF3 *@
+    @if (myModel.Count > 0)
+    {
+        @*@Html.Partial("_PartGenerateGrid", MyModel)*@
 
-       column.Add().Encoded(false).Sanitized(false)
-       .RenderValueAs(c => @Html.ActionLink("Delete", null, null, new { @class = "btn btn-danger" }));
-   }).WithPaging(3).Selectable(false)
+        @Html.Grid(myModel).AutoGenerateColumns().Columns(column =>
+       {
+           column.Add().Encoded(false).Sanitized(false)
+               .RenderValueAs(c => @Html.ActionLink("Update", "Update", new { obj = c, type = c.GetType()}, new {@class = "btn btn-warning"}));
+
+                column.Add().Encoded(false).Sanitized(false)
+                    .RenderValueAs(c => @Html.ActionLink("Delete", "Delete", new { obj = c, type = c.GetType() }, new {@class = "btn btn-danger"}));
+            }).WithPaging(3).Selectable(false)
+        }
+
+
+    @if (myModel2.Count > 0)
+    {
+        @*@Html.Partial("_PartGenerateGrid", MyModel2)*@
+
+        @Html.Grid(myModel2).AutoGenerateColumns().Columns(column =>
+        {
+            column.Add().Encoded(false).Sanitized(false)
+                .RenderValueAs(c => @Html.ActionLink("Update", "Update", new { obj = c, type = c.GetType() }, new {@class = "btn btn-warning"}));
+
+            column.Add().Encoded(false).Sanitized(false)
+                .RenderValueAs(c => @Html.ActionLink("Delete", "Delete", new { obj = c, type = c.GetType() }, new {@class = "btn btn-danger"}));
+        }).WithPaging(3).Selectable(false)
+    }
 </div>
