@@ -14,6 +14,7 @@ namespace DreamwareTZ.Controllers
         
         public ActionResult Index()
         {
+            
             var users = db.Users.ToList();
             return View(users);
         }

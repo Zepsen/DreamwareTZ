@@ -33,8 +33,8 @@
     <div>
         @Html.Grid(@Model).Columns(columns =>
         {
-            columns.Add(user => user.Login).Titled("Custom column title").SetWidth(110);
-            columns.Add(user => user.Password).Sortable(true);
-        }).WithPaging(20)
+            columns.Add(user => user.Login).Titled("Custom column title").Sortable(true).SetWidth(110);
+            columns.Add(user => user.Password);
+        }).WithPaging(3)
     </div>
 </div>
