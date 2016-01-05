@@ -1,37 +1,37 @@
 ﻿
 @using System.Data.Entity.ModelConfiguration.Conventions
-@using DreamwareTZ.Classes
+@using DreamwareTZ.Models
 @using GridMvc.Html
 
 @*@model List<DreamwareTZ.Classes.User>*@
-@model List<object>
+@model List<User>
 
 @{
-    var type = Model.First();
+//var type = Model.First();
 
-    var MyModel = new List<User>();
+//var MyModel = new List<User>();
 
-    if (type.GetType() == typeof(User))
-    {
-        foreach (var item in Model)
-        {
-            var i = (User) item;
-            MyModel.Add(new User()
-            {
-                Login = i.Login,
-                Password = i.Password 
-            });
-        }
+//if (type.GetType() == typeof(User))
+//{
+//    foreach (var item in Model)
+//    {
+//        var i = (User) item;
+//        MyModel.Add(new User()
+//        {
+//            Login = i.Login,
+//            Password = i.Password 
+//        });
+//    }
 
-    }
+//}
 
-    ViewBag.Title = "Home Page";
+//ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
     <h1>ASP.NET</h1>
     <div>
-        @Html.Grid(@MyModel).Columns(columns =>
+        @Html.Grid(@Model).Columns(columns =>
         {
             columns.Add(user => user.Login).Titled("Custom column title").SetWidth(110);
             columns.Add(user => user.Password).Sortable(true);
