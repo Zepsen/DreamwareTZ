@@ -1,69 +1,21 @@
 ﻿
 @using System.Data.Entity.ModelConfiguration.Conventions
+@using DreamwareTZ.Infrastructure
 @using DreamwareTZ.Models
 @using GridMvc.Html
 @using Microsoft.Ajax.Utilities
 
-@*@model List<DreamwareTZ.Classes.User>*@
-@model List<object>
+@model GridForViewModel
 
 @{
     ViewBag.Title = "Home Page";
-
-    var type = Model.First().GetType();
-
-    /*IF1*/
-    var myModel = new List<User>();
-    var myModel2 = new List<Admin>();
-
-
-    /*IF2*/
-    if (type == typeof(User))
-    {
-        myModel.AddRange(Model.Select(item => item as User));
-    }
-
-    if (type == typeof(Admin))
-    {
-        myModel2.AddRange(Model.Select(item => item as Admin));
-    }
-
-
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
+    <h1>TZ</h1>
 </div>
 
 <hr />
 <div>
-    @* IF3 *@
-    @if (myModel.Count > 0)
-    {
-        @*@Html.Partial("_PartGenerateGrid", MyModel)*@
-
-        @Html.Grid(myModel).AutoGenerateColumns().Columns(column =>
-       {
-           column.Add().Encoded(false).Sanitized(false)
-               .RenderValueAs(c => @Html.ActionLink("Update", "Update", new { obj = c, type = c.GetType()}, new {@class = "btn btn-warning"}));
-
-                column.Add().Encoded(false).Sanitized(false)
-                    .RenderValueAs(c => @Html.ActionLink("Delete", "Delete", new { obj = c, type = c.GetType() }, new {@class = "btn btn-danger"}));
-            }).WithPaging(3).Selectable(false)
-        }
-
-
-    @if (myModel2.Count > 0)
-    {
-        @*@Html.Partial("_PartGenerateGrid", MyModel2)*@
-
-        @Html.Grid(myModel2).AutoGenerateColumns().Columns(column =>
-        {
-            column.Add().Encoded(false).Sanitized(false)
-                .RenderValueAs(c => @Html.ActionLink("Update", "Update", new { obj = c, type = c.GetType() }, new {@class = "btn btn-warning"}));
-
-            column.Add().Encoded(false).Sanitized(false)
-                .RenderValueAs(c => @Html.ActionLink("Delete", "Delete", new { obj = c, type = c.GetType() }, new {@class = "btn btn-danger"}));
-        }).WithPaging(3).Selectable(false)
-    }
+    @Html.MyGrid(Model)
 </div>

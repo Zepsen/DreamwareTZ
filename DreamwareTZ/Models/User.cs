@@ -12,6 +12,11 @@ namespace DreamwareTZ.Models
         public string Password { get; set; }
         public System.DateTime RegistrationDate { get; set; }
         public System.DateTime BirthDate { get; set; }
-        public int Age { get; set; }
+
+        public int Age
+        {
+            //Plug 
+            get; set; // { return DateTime.UtcNow.Subtract(BirthDate).Days/365; }
+        }
     }
 }
